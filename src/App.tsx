@@ -1,11 +1,11 @@
+import { Outlet } from "react-router";
 import { Navbar } from "./components/shared/Navbar";
-import { Transactions } from "./components/shared/Transactions";
 
 export const App = () => {
 	return (
-		<div className="space-y-5">
+		<div className="p-8 mx-auto space-y-8">
 			<Navbar />
-      <Transactions/>
+			<Outlet />
 		</div>
 	);
 };
