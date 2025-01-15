@@ -24,3 +24,15 @@ export const updateTransaction = async (id, transaction) => {
 		console.log(error);
 	}
 };
+
+// user transactions
+export const getUserTransactions = async () => {
+	try {
+		const response = await api.get(
+			`/transactions/?email=maria.garcia@email.com`
+		);
+		return response.status === 200 ? response.data : [];
+	} catch (error) {
+		console.log(error);
+	}
+};
