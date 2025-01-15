@@ -1,13 +1,11 @@
-import { handleLoginUser } from "@/API/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
 import { User } from "@/types/type";
-import { useMutation } from "@tanstack/react-query";
 import { SyntheticEvent } from "react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "sonner";
+import { Link } from "react-router";
 
 // type UserInformation = {
 //   email: string,
@@ -15,20 +13,8 @@ import { toast } from "sonner";
 // }
 
 export const LoginPage = () => {
-	const navigate = useNavigate();
-
-	const { mutate } = useMutation({
-		mutationFn: handleLoginUser,
-		onSuccess: (apidata) => {
-			if (apidata.message) {
-				toast(apidata.message);
-			}
-
-			if (apidata.user) {
-				navigate("/user-transactions", { state: apidata.user });
-			}
-		},
-	});
+	
+	const { loginMutate } = useAuth();
 
 	const handleLoginForm = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -43,7 +29,7 @@ export const LoginPage = () => {
 		};
 
 		// form.reset();
-		mutate(userLoginInformation);
+		loginMutate(userLoginInformation);
 		// console.log(userRegisterInformation);
 	};
 

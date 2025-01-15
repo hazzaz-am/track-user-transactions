@@ -9,12 +9,16 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
 import { Transaction } from "@/types/type";
 import { useMutation } from "@tanstack/react-query";
 import { SyntheticEvent } from "react";
 import { toast } from "sonner";
 
 export const SubmitTransactions = () => {
+
+	const {user} = useAuth()
+
 	const handleSubmitTransaction = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const form = e.currentTarget;
@@ -24,7 +28,7 @@ export const SubmitTransactions = () => {
 		const userTransaction: Transaction = {
 			amount,
 			title,
-			email: "hazzaz@mannan.com",
+			email: user?.email,
 		};
 		mutate(userTransaction);
 	};

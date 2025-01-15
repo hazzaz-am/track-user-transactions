@@ -1,8 +1,12 @@
+import { useAuth } from "@/hooks/useAuth";
 import { MdOutlinePayment } from "react-icons/md";
 import { Link } from "react-router";
+import { Button } from "../ui/button";
 // import { Link } from "react-router";
 
 export const Navbar = () => {
+	const { user, handleLogoutUser } = useAuth();
+
 	return (
 		<nav className="flex items-center justify-between">
 			{/* logo */}
@@ -24,18 +28,16 @@ export const Navbar = () => {
 				>
 					My Transactions
 				</Link>
-				<Link
-					to="/login"
-					className="inline-block text-sm font-medium cursor-pointer text-[#111827]"
-				>
-					Login
-				</Link>
-				<Link
-					to="/registration"
-					className="inline-block text-sm font-medium cursor-pointer text-[#111827]"
-				>
-					Registration
-				</Link>
+				{user !== null ? (
+					<Button onClick={handleLogoutUser}>Logout</Button>
+				) : (
+					<Link
+						to="/registration"
+						className="inline-block text-sm font-medium cursor-pointer text-[#111827]"
+					>
+						Registration
+					</Link>
+				)}
 			</menu>
 		</nav>
 	);

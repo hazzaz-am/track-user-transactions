@@ -1,28 +1,14 @@
-import { handleRegistration } from "@/API/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
 import { User } from "@/types/type";
-import { useMutation } from "@tanstack/react-query";
 import { SyntheticEvent } from "react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "sonner";
+import { Link } from "react-router";
 
 export const RegistrationPage = () => {
-	const navigate = useNavigate();
-
-	const { mutate } = useMutation({
-		mutationFn: handleRegistration,
-		onSuccess: (apiData) => {
-			if (apiData.message) {
-				toast(apiData.message);
-			}
-			if (apiData.user) {
-				navigate("/login");
-			}
-		},
-	});
+	const { registrationMutate } = useAuth();
 
 	const handleRegistrationForm = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -37,8 +23,8 @@ export const RegistrationPage = () => {
 			email,
 			password,
 		};
-
-		mutate(userRegisterInformation);
+		
+		registrationMutate(userRegisterInformation);
 	};
 	return (
 		<Card className="w-1/2 mx-auto">

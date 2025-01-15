@@ -8,16 +8,16 @@ import {
 import { PaymentCard } from "./PaymentCard";
 import { useQuery } from "@tanstack/react-query";
 import { getUserTransactions } from "@/API/api";
-import { useLocation } from "react-router";
 import { Transaction } from "@/types/type";
+import { useAuth } from "@/hooks/useAuth";
 
 export const UserTransactions = () => {
-	const location = useLocation();
-	const { email } = location.state || {};
+	const {user} = useAuth()
 
 	const { data } = useQuery({
-		queryKey: ["user-transactions"],
-		queryFn: () => getUserTransactions(email),
+		queryKey: ["user-transactions", user?.email],
+		queryFn: () => getUserTransactions(user?.email),
+		enabled: !!user?.email,
 	});
 
 	const totalCredit = data?.reduce(
