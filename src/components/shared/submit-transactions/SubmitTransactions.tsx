@@ -26,7 +26,7 @@ export const SubmitTransactions = () => {
 						<Label className="text-sm font-medium">Title</Label>
 						<Input type="text" placeholder="Transaction Title" required />
 					</div>
-					<Button type="submit" className="w-full bg-[#111827] hover:bg-black transition-colors duration-500">
+					<Button type="submit" className="w-full transition-colors duration-500">
 						Submit Transaction
 					</Button>
 				</form>
