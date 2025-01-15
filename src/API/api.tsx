@@ -28,11 +28,22 @@ export const updateTransaction = async (id, transaction) => {
 // user transactions
 export const getUserTransactions = async () => {
 	try {
-		const response = await api.get(
-			`/transactions/?email=maria.garcia@email.com`
-		);
+		const response = await api.get(`/transactions/?email=hazzaz@gmail.com`);
 		return response.status === 200 ? response.data : [];
 	} catch (error) {
 		console.log(error);
 	}
 };
+
+// submit transaction
+export const submitUserTransaction = async (transaction) => {
+	try {
+		const res = await api.post("/transactions", transaction);
+		const data = await res.data
+		return data
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+
