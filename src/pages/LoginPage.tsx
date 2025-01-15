@@ -14,7 +14,11 @@ import { Link } from "react-router";
 
 export const LoginPage = () => {
 	
-	const { loginMutate } = useAuth();
+	const auth = useAuth();
+	if (!auth) {
+		return <div>Error: Auth context is not available</div>;
+	}
+	const { loginMutate } = auth;
 
 	const handleLoginForm = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();

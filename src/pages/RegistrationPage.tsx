@@ -8,7 +8,11 @@ import { SyntheticEvent } from "react";
 import { Link } from "react-router";
 
 export const RegistrationPage = () => {
-	const { registrationMutate } = useAuth();
+	const auth = useAuth();
+	if (!auth) {
+		return <div>Error: Auth context is not available</div>;
+	}
+	const { registrationMutate } = auth;
 
 	const handleRegistrationForm = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();

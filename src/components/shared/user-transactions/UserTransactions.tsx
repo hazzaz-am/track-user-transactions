@@ -12,11 +12,12 @@ import { Transaction } from "@/types/type";
 import { useAuth } from "@/hooks/useAuth";
 
 export const UserTransactions = () => {
-	const {user} = useAuth()
+	const auth = useAuth();
+	const user = auth?.user;
 
 	const { data } = useQuery({
 		queryKey: ["user-transactions", user?.email],
-		queryFn: () => getUserTransactions(user?.email),
+		queryFn: () => getUserTransactions(user?.email as string),
 		enabled: !!user?.email,
 	});
 

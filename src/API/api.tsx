@@ -2,7 +2,8 @@ import { Transaction, User } from "@/types/type";
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: "http://localhost:5000"
+	baseURL: "https://track-user-transactions-server-1.onrender.com",
+	// baseURL: "http://localhost:5000",
 });
 
 // fetch all transactions
@@ -59,15 +60,17 @@ export const handleLoginUser = async (userInformation: User) => {
 		const data = await response.data;
 		return data;
 	} catch (error) {
-		console.log(error);
+		console.log(error)
 	}
 };
 
 // user register
 export const handleRegistration = async (userInformation: User) => {
+	console.log(userInformation);
 	try {
 		const response = await api.post("/register", userInformation);
 		const data = await response.data;
+		// console.log(data);
 		return data;
 	} catch (error) {
 		console.log(error);

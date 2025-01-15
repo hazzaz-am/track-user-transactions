@@ -2,10 +2,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { MdOutlinePayment } from "react-icons/md";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
-// import { Link } from "react-router";
 
 export const Navbar = () => {
-	const { user, handleLogoutUser } = useAuth();
+	const auth = useAuth();
+	const user = auth?.user;
+	const handleLogoutUser = auth?.handleLogoutUser;
 
 	return (
 		<nav className="flex items-center justify-between">

@@ -16,8 +16,8 @@ import { SyntheticEvent } from "react";
 import { toast } from "sonner";
 
 export const SubmitTransactions = () => {
-
-	const {user} = useAuth()
+	const auth = useAuth();
+	const email = auth?.user?.email;
 
 	const handleSubmitTransaction = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -28,7 +28,7 @@ export const SubmitTransactions = () => {
 		const userTransaction: Transaction = {
 			amount,
 			title,
-			email: user?.email,
+			email: email!,
 		};
 		mutate(userTransaction);
 	};
