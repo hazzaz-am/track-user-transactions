@@ -9,29 +9,30 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Transaction } from "@/types/type";
 import { useMutation } from "@tanstack/react-query";
+import { SyntheticEvent } from "react";
+import { toast } from "sonner";
 
 export const SubmitTransactions = () => {
-	const handleSubmitTransaction = (e) => {
+	const handleSubmitTransaction = (e: SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const form = e.currentTarget;
 		const formData = new FormData(form);
-		const amount = formData.get("amount");
-		const title = formData.get("title");
-
-		mutate({
+		const amount = formData.get("amount") as string;
+		const title = formData.get("title") as string;
+		const userTransaction: Transaction = {
 			amount,
 			title,
-			email: "hazzaz@gmail.com",
-		});
-
-		// console.log(userRegisterInformation);
+			email: "hazzaz@mannan.com",
+		};
+		mutate(userTransaction);
 	};
 
 	const { mutate } = useMutation({
 		mutationFn: submitUserTransaction,
-		onSuccess: (apiData) => {
-			console.log(apiData);
+		onSuccess: () => {
+			toast("Transaction Added to your Vault");
 		},
 	});
 
@@ -50,6 +51,7 @@ export const SubmitTransactions = () => {
 							placeholder="Enter Amount"
 							required
 							name="amount"
+							defaultValue="00"
 						/>
 					</div>
 					<div className="space-y-2">

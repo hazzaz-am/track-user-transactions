@@ -8,6 +8,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Transaction, UpdateTransactionType } from "@/types/type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const AdminDashboard = () => {
@@ -19,9 +20,10 @@ export const AdminDashboard = () => {
 	});
 
 	const updateMutation = useMutation({
-		mutationFn: (data) => updateTransaction(data.id, data.transaction),
-		onSuccess: (apiData, id) => {
-			queryClient.invalidateQueries(["transactions"]);
+		mutationFn: (data: UpdateTransactionType) =>
+			updateTransaction(data.id, data.transaction),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		},
 	});
 
@@ -59,7 +61,7 @@ export const AdminDashboard = () => {
 									<th className="px-6 py-3">Actions</th>
 								</tr>
 							</thead>
-							{data?.map((transaction) => (
+							{data?.map((transaction: Transaction) => (
 								<tbody key={transaction._id}>
 									<tr className="bg-white border-b hover:bg-gray-50">
 										<td className="px-6 py-4 font-medium">
@@ -67,15 +69,20 @@ export const AdminDashboard = () => {
 										</td>
 										<td className="px-6 py-4">$ {transaction.amount}</td>
 										<td className="px-6 py-4">{transaction.title}</td>
-										<td className="px-6 py-4">{transaction.createdAt}</td>
+										<td className="px-6 py-4">
+											{transaction.createdAt?.slice(0, 10)}
+										</td>
 										<td className="px-6 py-4">
 											<Badge
 												className={`${
-													transaction.status === "PENDING" && "bg-yellow-500"
+													transaction.status === "PENDING" &&
+													"bg-yellow-500 hover:bg-yellow-500"
 												} ${
-													transaction.status === "REJECTED" && "bg-red-500"
+													transaction.status === "REJECTED" &&
+													"bg-red-500 hover:bg-red-500"
 												} ${
-													transaction.status === "APPROVED" && "bg-green-500"
+													transaction.status === "APPROVED" &&
+													"bg-green-500 hover:bg-green-500"
 												}`}
 											>
 												{transaction.status}
@@ -90,7 +97,7 @@ export const AdminDashboard = () => {
 													className="text-green-600 hover:text-green-700"
 													onClick={() =>
 														updateMutation.mutate({
-															id: transaction._id,
+															id: transaction._id!,
 															transaction: {
 																...transaction,
 																status: "APPROVED",
@@ -106,7 +113,7 @@ export const AdminDashboard = () => {
 													className="text-red-600 hover:text-red-700"
 													onClick={() =>
 														updateMutation.mutate({
-															id: transaction._id,
+															id: transaction._id!,
 															transaction: {
 																...transaction,
 																status: "REJECTED",
